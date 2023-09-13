@@ -51,7 +51,7 @@ public class OpenVPNFlutterPlugin implements FlutterPlugin, ActivityAware {
     }
 
     public static void disconnect() {
-        vpnHelper.disconnect();
+        vpnHelper.stopVPN();
     }
 
     @Override

@@ -50,6 +50,10 @@ public class OpenVPNFlutterPlugin implements FlutterPlugin, ActivityAware {
         }
     }
 
+    public static void disconnect() {
+        vpnHelper.disconnect();
+    }
+
     @Override
     public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
         vpnStageEvent = new EventChannel(binding.getBinaryMessenger(), EVENT_CHANNEL_VPN_STAGE);

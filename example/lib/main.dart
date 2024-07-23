@@ -19,7 +19,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   late OpenVPN engine;
   VpnStatus? status;
-  VPNStage? stage;
+  String? stage;
   bool _granted = false;
   @override
   void initState() {
@@ -31,7 +31,7 @@ class _MyAppState extends State<MyApp> {
       },
       onVpnStageChanged: (data, raw) {
         setState(() {
-          stage = data;
+          stage = raw;
         });
       },
     );
@@ -43,7 +43,7 @@ class _MyAppState extends State<MyApp> {
       localizedDescription: "VPN by Nizwar",
       lastStage: (stage) {
         setState(() {
-          this.stage = stage;
+          this.stage = stage.name;
         });
       },
       lastStatus: (status) {
@@ -56,10 +56,13 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> initPlatformState() async {
-    engine.connect(config, "USA",
-        username: defaultVpnUsername,
-        password: defaultVpnPassword,
-        certIsRequired: true);
+    engine.connect(
+      config,
+      "USA",
+      username: defaultVpnUsername,
+      password: defaultVpnPassword,
+      certIsRequired: true,
+    );
     if (!mounted) return;
   }
 
@@ -110,4 +113,4 @@ class _MyAppState extends State<MyApp> {
 const String defaultVpnUsername = "";
 const String defaultVpnPassword = "";
 
-String config = "YOUR OPENVPN CONFIG HERE";
+String get config => "HERE IS YOUR OVPN SCRIPT";

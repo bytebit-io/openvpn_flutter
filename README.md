@@ -2,6 +2,7 @@ Connect OpenVPN service with Flutter, Issues and PRs are very welcome!
 
 ## Android Setup
 ### <b>1. Permission handler</b>
+#### JAVA
 Add this to your onActivityResult in MainActivity.java (if you are using Java)
 
 ```java
@@ -20,6 +21,7 @@ So it look like this
     }
 ```
 
+#### Kotlin
 Add this to your onAcivityResult in MainActivity.kt (if you are using Kotlin)
 
 ```kotlin
@@ -138,6 +140,51 @@ Google Play.
 gradle.properties > android.bundle.enableUncompressedNativeLibs=false
 AndroidManifest > android:extractNativeLibs="true" in application tag
 ```
+
+app/build.gradle add these inside android tag
+```gradle
+
+android{
+    ...
+    //from here ======
+    lintOptions {
+        disable 'InvalidPackage'
+        checkReleaseBuilds false
+    }
+
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
+
+    bundle {
+        language {
+            enableSplit = false
+        }
+        density {
+            enableSplit = false
+        }
+        abi {
+            enableSplit = false
+        }
+    }
+    //to here
+    ...
+}
+```
+
+#### Notifications
+As the plugin shows notification for connection status and connection detail, you have to request permission by using 3rd-party packages.
+
+Example by using [permission_handler](https://pub.dev/packages/permission_handler)
+```dart
+    ///Put it anywhere you wish like once you initialize the vpn or pre-connect the server
+    Permission.notification.isGranted.then((_) {
+      if (!_) Permission.notification.request();
+    });
+```
+
 
 ### iOS
 1. View [Apple Guidelines](https://developer.apple.com/app-store/review/guidelines/#vpn-apps) Relating to VPN
